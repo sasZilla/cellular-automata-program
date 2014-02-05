@@ -98,20 +98,12 @@ Board.prototype = {
     },
 
     draw: function() {
-        var Text = "";
-
-        console.log(this);
-
-
-        for (var y = 0; y < this.ysize; y++) {
-            for (var x = 0; x < this.xsize; x++) {
-                if (this.structBoard && this.structBoard[x] !== "undefined" && this.structBoard[x][y] !== "undefined") {
-                    Text += this.structBoard[x][y] === this.alive ? "o" : "_";
-                }
-            }
-            Text += "<br/>";
-        }
-        document.getElementById("board").innerHTML = Text;
+        var self = this;
+        document.getElementById("board").innerHTML = self.structBoard.reduce(function(prevArr, currArr) {
+            return prevArr + currArr.reduce(function(prev, curr) {
+                return prev + '<div class="cell">' + (curr === self.alive ? "o":"&nbsp;") + '</div>';
+            }, '') + "<br/>";
+        }, '');
 
         return this;
     }
